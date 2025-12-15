@@ -1,25 +1,246 @@
-HTML
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-.highlight { color: green; font-weight: bold; }
-</style>
-<script>
-function addHighlight () {
-    document.getElementById("msg").className = "highlight";
-}
+  <head>
+    <title>SEN 311 - DHTML Combined Solutions</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h2 {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 5px;
+        margin-top: 30px;
+      }
+      .task-container {
+        border: 1px solid #eee;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+      }
 
-function removeHighlight() {
-    document.getElementById("msg").className = "";
-}
-</script>
-</head>
-<body>
-<p id="msg" 
-   onmouseover="addHighlight()" 
-   onmouseout="removeHighlight()">
-    Hover over this text to highlight it!
-</p>
-</body>
+      /* --- Task 1 Styles: Dynamic Styles --- */
+      .highlight {
+        color: green;
+        font-weight: bold;
+      }
+      .background-toggle {
+        background-color: yellow;
+      }
+
+      /* --- Task 3 Styles: Dynamic Positioning and Animation --- */
+      #box {
+        width: 50px;
+        height: 50px;
+        background: orange;
+        position: absolute;
+        left: 10px;
+        top: 400px; /* Adjusted position to avoid conflict with other content */
+      }
+
+      /* --- Task 4 Styles: Interactive Menus --- */
+      #menu a {
+        display: none;
+        margin: 4px 0;
+        color: blue;
+      }
+      #menu a.active {
+        display: block;
+      }
+
+      /* --- Task 5 Styles: CSS Transitions --- */
+      #myBtn {
+        padding: 8px 20px;
+        border: none;
+        background: #008cba;
+        color: white;
+        transition: background 0.5s ease, border-radius 0.5s ease,
+          box-shadow 0.5s ease;
+        border-radius: 5px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+      #myBtn.hovered {
+        background: #e91e63;
+        border-radius: 20px;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>SEN 311 - DHTML Lab Solutions</h1>
+
+    <div class="task-container">
+      <h2>Task 1: Dynamic Styles (Click to Toggle Background)</h2>
+      <p
+        id="msg"
+        onmouseover="task1_addHighlight()"
+        onmouseout="task1_removeHighlight()"
+        onclick="task1_toggleBackground()"
+      >
+        Hover over this text to highlight it! Click to change the background!
+      </p>
+    </div>
+
+    <div class="task-container">
+      <h2>Task 2: DOM Content Update (Clears Input & Shows Time)</h2>
+      <input type="text" id="name" placeholder="Enter your name" />
+      <button onclick="task2_updateMessage()">Submit</button>
+      <p id="greeting"></p>
+      <p id="current-time"></p>
+    </div>
+
+    <div class="task-container" style="min-height: 200px">
+      <h2>Task 3: Circular Animation (Start/Stop Control)</h2>
+      <button onclick="task3_slideCircle()">Start Animation</button>
+      <button onclick="task3_stopSlide()">Stop Animation</button>
+      <div id="box"></div>
+      <p style="margin-top: 150px">
+        *The orange box moves in a circular path above.
+      </p>
+    </div>
+
+    <div class="task-container">
+      <h2>Task 4: Cycling Menu (Only one visible at a time)</h2>
+      <button onclick="task4_cycleMenu()">Next Menu Item</button>
+      <div id="menu">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+
+    <div class="task-container">
+      <h2>Task 5: CSS Transitions (Text Change and Multiple Effects)</h2>
+      <button
+        id="myBtn"
+        onmouseover="task5_changeColor()"
+        onmouseout="task5_changeColor()"
+      >
+        Hover Me!
+      </button>
+    </div>
+
+    <script>
+      // ==================================
+      // TASK 1 SCRIPT
+      // ==================================
+      function task1_addHighlight() {
+        document.getElementById("msg").classList.add("highlight");
+      }
+
+      function task1_removeHighlight() {
+        document.getElementById("msg").classList.remove("highlight");
+      }
+
+      function task1_toggleBackground() {
+        document.getElementById("msg").classList.toggle("background-toggle");
+      }
+
+      // ==================================
+      // TASK 2 SCRIPT
+      // ==================================
+      function task2_updateMessage() {
+        var userInput = document.getElementById("name");
+        var user = userInput.value;
+        var greetingOutput = document.getElementById("greeting");
+        var dateTimeOutput = document.getElementById("current-time");
+
+        greetingOutput.innerHTML = "Welcome, " + user + "!";
+        userInput.value = "";
+
+        var now = new Date();
+        dateTimeOutput.innerHTML =
+          "Current Date and Time: " + now.toLocaleString();
+      }
+
+      // ==================================
+      // TASK 3 SCRIPT
+      // ==================================
+      var task3_id = null;
+      var task3_angle = 0;
+      var task3_centerX = 150;
+      var task3_centerY = 500;
+      var task3_radius = 100;
+
+      function task3_slideCircle() {
+        var box = document.getElementById("box");
+
+        if (task3_id !== null) {
+          clearInterval(task3_id);
+        }
+
+        task3_id = setInterval(frame, 20);
+
+        function frame() {
+          task3_angle += 0.1;
+
+          var newLeft = task3_centerX + task3_radius * Math.cos(task3_angle);
+          var newTop = task3_centerY + task3_radius * Math.sin(task3_angle);
+
+          box.style.left = newLeft + "px";
+          box.style.top = newTop + "px";
+        }
+      }
+
+      function task3_stopSlide() {
+        if (task3_id !== null) {
+          clearInterval(task3_id);
+          task3_id = null;
+        }
+      }
+
+      // ==================================
+      // TASK 4 SCRIPT
+      // ==================================
+      var task4_currentItem = 0;
+      var task4_menuItems;
+
+      // Runs once the page is fully loaded to initialize menu items
+      window.onload = function () {
+        // Initialize menu items for Task 4
+        task4_menuItems = document.querySelectorAll("#menu a");
+        if (task4_menuItems.length > 0) {
+          task4_menuItems[task4_currentItem].classList.add("active");
+        }
+        // Ensure the Task 3 animation interval is clear initially
+        if (task3_id !== null) {
+          clearInterval(task3_id);
+          task3_id = null;
+        }
+      };
+
+      function task4_cycleMenu() {
+        if (!task4_menuItems) return;
+
+        // 1. Hide the currently active item
+        if (task4_menuItems.length > 0) {
+          task4_menuItems[task4_currentItem].classList.remove("active");
+        }
+
+        // 2. Increment the index, wrap around to 0
+        task4_currentItem = (task4_currentItem + 1) % task4_menuItems.length;
+
+        // 3. Show the new active item
+        if (task4_menuItems.length > 0) {
+          task4_menuItems[task4_currentItem].classList.add("active");
+        }
+      }
+
+      // ==================================
+      // TASK 5 SCRIPT
+      // ==================================
+      function task5_changeColor() {
+        var button = document.getElementById("myBtn");
+
+        button.classList.toggle("hovered");
+
+        if (button.classList.contains("hovered")) {
+          button.innerHTML = "Thank you!";
+        } else {
+          button.innerHTML = "Hover Me!";
+        }
+      }
+    </script>
+  </body>
 </html>
