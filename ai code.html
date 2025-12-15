@@ -1,26 +1,25 @@
 HTML
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      .highlight {
-        color: green;
-        font-weight: bold;
-      }
-    </style>
-    <script>
-      function addHighlight() {
-        document.getElementById("msg").className = "highlight";
-      }
+<head>
+<style>
+.highlight { color: green; font-weight: bold; }
+</style>
+<script>
+function addHighlight () {
+    document.getElementById("msg").className = "highlight";
+}
 
-      function removeHighlight() {
-        document.getElementById("msg").className = "";
-      }
-    </script>
-  </head>
-  <body>
-    <p id="msg" onmouseover="addHighlight()" onmouseout="removeHighlight()">
-      Hover over this text to highlight it!
-    </p>
-  </body>
+function removeHighlight() {
+    document.getElementById("msg").className = "";
+}
+</script>
+</head>
+<body>
+<p id="msg" 
+   onmouseover="addHighlight()" 
+   onmouseout="removeHighlight()">
+    Hover over this text to highlight it!
+</p>
+</body>
 </html>
